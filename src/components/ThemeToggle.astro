@@ -1,0 +1,315 @@
+---
+import SunIcon from "./icons/Sun.astro";
+import MoonIcon from "./icons/Moon.astro";
+import SystemIcon from "./icons/System.astro";
+import Theme from "./icons/Theme.astro";
+
+const THEMES = ["Catpuccin", "Everforest", "Gruvbox", "Vitesse"];
+---
+
+<div class="relative ml-1 mr-1">
+  <button
+    transition:persist
+    id="theme-toggle-btn"
+    title="Cambiar tema"
+    aria-label="Selector de tema"
+  >
+    <span class="sr-only">Elige el tema</span>
+    <Theme id="dark" class="theme-toggle-icon" />
+  </button>
+  <div
+    transition:persist
+    id="themes-menu"
+    class="absolute hidden scale-80 bottom-full mb-2 right-0 text-sm p-1 min-w-[10rem] rounded-md border border-gray-100 bg-white/90 dark:bg-gray-900/90 dark:border-gray-500/20 shadow-[0_3px_10px_rgb(0,0,0,0.2)] backdrop-blur-md z-50"
+  >
+    <ul>
+      {
+        THEMES.map((theme) => (
+          <li
+            class="themes-menu-option px-2 py-1.5 cursor-default hover:bg-neutral-400/40 dark:hover:bg-gray-500/50 rounded-sm flex items-center justify-between"
+            data-theme={theme}
+          >
+            <span>{theme}</span>
+            <span class="theme-check text-green-400 opacity-0 transition-opacity">
+              ✓
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
+
+<style>
+  #theme-toggle-btn {
+    position: relative;
+    min-width: 40px;
+    min-height: 40px;
+    background: var(--background1, #3b4252);
+    border: 1px solid var(--background2, #434c5e);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #theme-toggle-btn:hover {
+    background: var(--background2, #434c5e);
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  #theme-toggle-btn:active {
+    transform: scale(0.95);
+  }
+
+  .theme-toggle-icon {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    transform-origin: center;
+    transition: all 0.15s ease;
+    transform: scale(0);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Make dark icon visible by default */
+  .theme-toggle-icon.active {
+    transform: scale(1) !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  /* Icon colors */
+  .theme-toggle-icon#light {
+    color: #eab308; /* yellow-500 */
+  }
+
+  .theme-toggle-icon#dark {
+    color: #60a5fa; /* blue-400 */
+  }
+
+  .theme-toggle-icon#system {
+    color: #9ca3af; /* gray-400 */
+  }
+
+  /* Default: show dark icon */
+  .theme-toggle-icon#dark {
+    transform: scale(1);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  #themes-menu.open {
+    display: inline;
+    animation: scale-up-center 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  /* Position menu above button by default */
+  #themes-menu {
+    bottom: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  /* If there's not enough space above, position below */
+  #themes-menu.position-below {
+    bottom: auto;
+    top: 100%;
+    margin-bottom: 0;
+    margin-top: 0.5rem;
+  }
+
+  @keyframes scale-up-center {
+    from {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  /* Ensure menu stays within viewport on small screens */
+  @media (max-width: 640px) {
+    #themes-menu {
+      right: 0;
+      left: auto;
+      min-width: 8.5rem;
+      font-size: 0.8rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    #themes-menu {
+      min-width: 8rem;
+      font-size: 0.75rem;
+    }
+
+    .themes-menu-option {
+      padding: 0.4rem 0.6rem;
+    }
+  }
+</style>
+
+<script is:inline>
+  let remove = null;
+  const matchMedia = window.matchMedia("(prefers-color-scheme: dark)");
+  const themesMenu = document.getElementById("themes-menu");
+
+  const getThemePreference = () => {
+    if (typeof localStorage !== "undefined") {
+      // Default to dark so built-in colors are used on first visit
+      return localStorage.getItem("theme") ?? "dark";
+    }
+
+    // Fallback: respect system, but most users will hit the localStorage path
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  };
+
+  const updateIcon = (themePreference) => {
+    document.querySelectorAll(".theme-toggle-icon").forEach((element) => {
+      if (element.id === themePreference) {
+        element.classList.add("active");
+      } else {
+        element.classList.remove("active");
+      }
+    });
+  };
+
+  const updateThemeIndicators = () => {
+    const selectedTheme = localStorage.getItem("selectedTheme") || "";
+    document.querySelectorAll(".themes-menu-option").forEach((element) => {
+      const themeCheck = element.querySelector(".theme-check");
+      const themeName = element.querySelector("span").textContent.trim();
+      if (themeCheck) {
+        themeCheck.style.opacity = themeName === selectedTheme ? "1" : "0";
+      }
+    });
+  };
+
+  const updateTheme = () => {
+    if (remove != null) {
+      remove();
+    }
+    matchMedia.addEventListener("change", updateTheme);
+    remove = () => {
+      matchMedia.removeEventListener("change", updateTheme);
+    };
+
+    const themePreference = getThemePreference();
+    const selectedTheme =
+      (typeof localStorage !== "undefined"
+        ? localStorage.getItem("selectedTheme")
+        : "") || "";
+    const forceDark = [
+      "catpuccin",
+      "everforest",
+      "gruvbox",
+      "vitesse",
+    ].includes(selectedTheme.toLowerCase());
+    const isDark =
+      forceDark ||
+      themePreference === "dark" ||
+      (themePreference === "system" && matchMedia.matches);
+
+    updateIcon(themePreference);
+    document.documentElement.classList[isDark ? "add" : "remove"]("dark");
+
+    // Handle WebTUI theme attribute
+
+    // If no theme is selected, use original built-in colors
+    if (!selectedTheme) {
+      document.documentElement.removeAttribute("data-webtui-theme");
+      updateThemeIndicators();
+      return;
+    }
+
+    let webtUITheme;
+
+    switch (selectedTheme.toLowerCase()) {
+      case "catpuccin":
+        // Apply Catppuccin (defaults to mocha flavor)
+        webtUITheme = "catppuccin";
+        break;
+      case "everforest":
+        webtUITheme = "everforest-dark-hard";
+        break;
+      case "gruvbox":
+        // Apply Gruvbox with an explicit default variant
+        // Options: gruvbox-dark-{hard|medium|soft} or gruvbox-light-{hard|medium|soft}
+        webtUITheme = "gruvbox-dark-medium";
+        break;
+      case "vitesse":
+        // Apply Vitesse dark variant
+        webtUITheme = "vitesse-dark";
+        break;
+      default:
+        // For unknown themes, use original built-in colors
+        document.documentElement.removeAttribute("data-webtui-theme");
+        updateThemeIndicators();
+        return;
+    }
+
+    document.documentElement.setAttribute("data-webtui-theme", webtUITheme);
+
+    // Update theme indicators
+    updateThemeIndicators();
+  };
+
+  updateTheme();
+
+  // Initialize theme indicators
+  setTimeout(() => updateThemeIndicators(), 0);
+
+  document.addEventListener("click", () => themesMenu.classList.remove("open"));
+
+  document.getElementById("theme-toggle-btn").addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isClosed = !themesMenu.classList.contains("open");
+
+    if (isClosed) {
+      // Check if there's enough space above the button
+      const button = e.target.closest("button");
+      const buttonRect = button.getBoundingClientRect();
+      const menuHeight = 120; // Approximate height of the menu
+      const spaceAbove = buttonRect.top;
+      const spaceBelow = window.innerHeight - buttonRect.bottom;
+
+      // Position menu based on available space
+      if (spaceAbove < menuHeight && spaceBelow > menuHeight) {
+        themesMenu.classList.add("position-below");
+      } else {
+        themesMenu.classList.remove("position-below");
+      }
+    }
+
+    themesMenu.classList[isClosed ? "add" : "remove"]("open");
+  });
+
+  document.querySelectorAll(".themes-menu-option").forEach((element) => {
+    element.addEventListener("click", (e) => {
+      const selectedTheme = e.target
+        .closest(".themes-menu-option")
+        .querySelector("span")
+        .textContent.trim();
+      // Persist only selected theme. Do not change the user's light/dark preference here.
+      localStorage.setItem("selectedTheme", selectedTheme);
+      updateTheme();
+    });
+  });
+
+  document.addEventListener("astro:after-swap", () => {
+    updateTheme();
+    // Only reset scroll position if we're actually navigating to a different page
+    if (window.location.hash === "" || window.location.hash === "#") {
+      window.scrollTo({ left: 0, top: 0, behavior: "instant" });
+    }
+  });
+</script>

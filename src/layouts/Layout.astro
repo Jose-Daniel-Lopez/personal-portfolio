@@ -1,0 +1,198 @@
+---
+import "@/assets/css/global.css";
+import Header from "../components/Header.astro";
+import { ViewTransitions } from "astro:transitions";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#1e1e2e" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <ViewTransitions />
+
+    <!-- Initialize theme before page load to prevent FOUC -->
+    <script is:inline>
+      (function () {
+        const getThemePreference = () => {
+          if (typeof localStorage !== "undefined") {
+            // Default to dark so built-in colors are used on first visit
+            return localStorage.getItem("theme") ?? "dark";
+          }
+          return window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        };
+
+        const getSelectedTheme = () => {
+          if (typeof localStorage !== "undefined") {
+            return localStorage.getItem("selectedTheme") ?? "";
+          }
+          return "";
+        };
+
+        const themePreference = getThemePreference();
+        const selectedTheme = getSelectedTheme();
+        const matchMedia = window.matchMedia("(prefers-color-scheme: dark)");
+        const forceDark = [
+          "catpuccin",
+          "everforest",
+          "gruvbox",
+          "vitesse",
+        ].includes(selectedTheme.toLowerCase());
+        const isDark =
+          forceDark ||
+          themePreference === "dark" ||
+          (themePreference === "system" && matchMedia.matches);
+
+        // Set theme class
+        document.documentElement.classList[isDark ? "add" : "remove"]("dark");
+
+        // Set WebTUI theme attribute
+        // If no theme is selected, use original built-in colors
+        if (!selectedTheme) {
+          document.documentElement.removeAttribute("data-webtui-theme");
+          return;
+        }
+
+        let webtUITheme;
+        switch (selectedTheme.toLowerCase()) {
+          case "catpuccin":
+            webtUITheme = "catppuccin"; // defaults to mocha
+            break;
+          case "everforest":
+            webtUITheme = "everforest-dark-hard";
+            break;
+          case "gruvbox":
+            // Use an explicit default variant for predictability
+            webtUITheme = "gruvbox-dark-medium";
+            break;
+          case "vitesse":
+            webtUITheme = "vitesse-dark";
+            break;
+          default:
+            // For unknown themes, use original built-in colors
+            document.documentElement.removeAttribute("data-webtui-theme");
+            return;
+        }
+
+        document.documentElement.setAttribute("data-webtui-theme", webtUITheme);
+      })();
+    </script>
+
+    <!-- WebTUI and font styles are imported via src/assets/css/global.css -->
+
+    <style>
+      html,
+      body {
+        font-family: "JetBrains Mono", "Fira Code", monospace;
+      }
+    </style>
+  </head>
+
+  <body class="relative min-h-screen font-mono text-sm leading-normal">
+    <!-- Subtle terminal scanline effect -->
+    <div
+      class="absolute inset-0 pointer-events-none z-[-1] bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[length:100%_2px]"
+    >
+    </div>
+
+    <!-- Background radial glow -->
+    <div
+      class="absolute inset-0 z-[-2] h-full w-full
+             bg-gray-50 dark:bg-gray-950
+             bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(217,216,255,0.5),rgba(255,255,255,0.9))]
+             dark:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(0,0,0,0))]"
+    >
+    </div>
+
+    <Header />
+    <main id="main-content" role="main">
+      <slot />
+    </main>
+
+    <style is:global>
+      :root {
+        color-scheme: light dark;
+        --font-family: "JetBrains Mono", "Fira Code", monospace;
+        --font-size: 16px;
+        --line-height: 1.4;
+      }
+
+      html {
+        font-family: var(--font-family);
+        line-height: var(--line-height);
+        scroll-behavior: smooth;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        overscroll-behavior: none;
+        color: var(--foreground0);
+        background: var(--background0);
+      }
+
+      /* Navigation scroll blur */
+      #header-nav {
+        animation: blur linear both 0.5s;
+        animation-timeline: scroll();
+        animation-range: 0 500px;
+      }
+
+      @keyframes blur {
+        to {
+          backdrop-filter: blur(12px);
+          background-color: color-mix(
+            in srgb,
+            var(--background0) 90%,
+            transparent
+          );
+          border: 1px solid var(--background2);
+          padding: 0.25lh 0.75ch;
+          border-radius: 8px;
+        }
+      }
+
+      @media (prefers-color-scheme: dark) {
+        @keyframes blur {
+          to {
+            background-color: color-mix(
+              in srgb,
+              var(--background0) 80%,
+              transparent
+            );
+            border: 1px solid var(--background2);
+            box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.2);
+          }
+        }
+      }
+
+      pre,
+      code {
+        font-family: var(--font-family);
+        font-variant-ligatures: none;
+        line-height: inherit;
+      }
+    </style>
+  </body>
+</html>

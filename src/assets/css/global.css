@@ -1,0 +1,190 @@
+/* ===========================
+  WebTUI Imports - must come first
+  =========================== */
+/* Define layers so theme styles attach to the right buckets */
+@layer base, utils, components;
+
+/* Base must come first */
+@import "@webtui/css/base.css";
+
+/* Import the specific component styles you use */
+@import "@webtui/css/components/badge.css";
+@import "@webtui/css/components/button.css";
+@import "@webtui/css/components/typography.css";
+@import "@webtui/css/components/separator.css";
+@import "@webtui/css/utils/box.css";
+
+/* Themes MUST come after base + components */
+@import "@webtui/theme-catppuccin";
+@import "@webtui/theme-everforest";
+@import "@webtui/theme-gruvbox";
+@import "@webtui/theme-vitesse";
+
+/* ===========================
+   Tailwind directives - must come after imports
+   =========================== */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===========================
+   Custom Terminal Styles
+   =========================== */
+body {
+  font-family: "JetBrains Mono", "Fira Code",
+    Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background0);
+  color: var(--foreground0);
+  line-height: 1.5;
+}
+
+.terminal-output {
+  font-family: inherit;
+  white-space: pre-wrap;
+}
+
+.terminal-output pre {
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.command-prompt {
+  color: #a6e3a1;
+  font-weight: bold;
+}
+
+a:hover {
+  background-color: rgba(116, 199, 236, 0.1);
+  transition: background-color 0.2s ease;
+}
+
+/* Blinking Cursor (used globally) */
+@keyframes cursor-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+.cursor-blink,
+.command-cursor {
+  animation: cursor-blink 1s infinite;
+}
+
+/* Navigation Hover */
+nav a,
+.menu-item {
+  color: var(--foreground0);
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  transition: all 0.2s ease;
+}
+
+nav a:hover,
+.menu-item:hover {
+  background-color: var(--background2);
+  color: var(--green-400, #86efac);
+}
+
+/* === Design Tokens === */
+:root {
+  --container-max: 1280px;
+  --container-wide: 1440px;
+  --container-pad: clamp(16px, 4vw, 48px);
+  --reading-max: 72ch;
+}
+
+/* === Responsive Containers === */
+.container {
+  width: min(100% - 2 * var(--container-pad), var(--container-max));
+  margin-inline: auto;
+}
+
+.container-wide {
+  width: min(100% - 2 * var(--container-pad), var(--container-wide));
+  margin-inline: auto;
+}
+
+.prose-max {
+  max-width: var(--reading-max);
+}
+
+/* === Responsive Padding Override === */
+@media (max-width: 640px) {
+  :root {
+    --container-pad: 16px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  :root {
+    --container-pad: clamp(24px, 4vw, 32px);
+  }
+}
+
+@media (min-width: 1025px) {
+  :root {
+    --container-pad: clamp(32px, 4vw, 48px);
+  }
+}
+
+/* === Main Content Spacing === */
+main#main-content {
+  padding-block: clamp(24px, 6vh, 72px);
+  /* Add responsive margin to account for fixed header */
+  margin-left: 0;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+/* Desktop: account for header width */
+@media (min-width: 1024px) {
+  main#main-content {
+    margin-left: 16rem; /* 64 in Tailwind = 16rem */
+  }
+}
+
+@media (max-width: 1023px) and (min-width: 768px) {
+  main#main-content {
+    margin-left: 14rem; /* 56 in Tailwind = 14rem */
+  }
+}
+
+@media (max-width: 767px) and (min-width: 640px) {
+  main#main-content {
+    margin-left: 10rem; /* 40 in Tailwind = 10rem */
+  }
+}
+
+/* Mobile: no margin, header is overlay */
+@media (max-width: 639px) {
+  main#main-content {
+    margin-left: 0;
+    /* Add padding top to avoid content being hidden behind hamburger button */
+    padding-top: clamp(64px, 8vh, 96px);
+  }
+}
+
+/* === Shared Animations (used in index & footer) === */
+@keyframes terminal-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@keyframes terminal-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "porfolio-dev",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "0.5.6",
+    "@astrojs/tailwind": "^6.0.2",
+    "@fontsource-variable/onest": "5.0.2",
+    "@webtui/css": "^0.1.4",
+    "@webtui/theme-catppuccin": "^0.0.3",
+    "@webtui/theme-everforest": "^0.0.3",
+    "@webtui/theme-gruvbox": "^0.0.1",
+    "@webtui/theme-vitesse": "^0.0.1",
+    "astro": "4.4.5",
+    "astro-robots-txt": "1.0.0",
+    "tailwindcss": "^3.4.17",
+    "typescript": "5.3.3"
+  }
+}

@@ -1,0 +1,191 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<div class="space-y-4">
+  <!-- "This is the end!" -->
+  <div
+    class="flex items-center gap-2 text-blue-400 terminal-command text-xs sm:text-sm"
+    data-command="Has llegado al final!"
+    aria-live="polite"
+  >
+    <span class="text-blue-400 shrink-0">jose@portfolio:~$</span>
+    <span class="text-gray-300 command-text"></span>
+    <span class="command-cursor">█</span>
+  </div>
+
+  <!-- "logout" -->
+  <div
+    class="flex items-center gap-2 text-blue-400 terminal-command text-xs sm:text-sm"
+    data-command="logout"
+    style="display: none;"
+    aria-live="polite"
+  >
+    <span class="text-blue-400 shrink-0">jose@portfolio:~$</span>
+    <span class="text-gray-300 command-text"></span>
+    <span class="command-cursor">█</span>
+  </div>
+
+  <!-- Footer Content -->
+  <div box-="square" class="p-2 sm:p-4 terminal-output" style="opacity: 0;">
+    <div
+      role="region"
+      aria-label="Footer content"
+      class="text-center"
+      style="background-color: var(--background1);"
+    >
+      <p class="text-gray-300 text-xs sm:text-sm">
+        Made with ❤️ by Jose Daniel. &copy; {currentYear}.
+      </p>
+      <p class="text-green-300 mt-2 animate-pulse text-xs sm:text-sm">
+        Gracias por visitar mi portfolio
+      </p>
+      <div
+        is-="separator"
+        class="my-3 sm:my-4"
+        style="--separator-color: var(--foreground2);"
+      >
+      </div>
+      <!-- Footer Links -->
+      <div
+        class="footer-links flex flex-wrap justify-center items-center gap-2 sm:gap-4 text-xs sm:text-sm"
+      >
+        <a
+          href="/#sobre-mi"
+          class="text-cyan-300 hover:text-yellow-300 transition inline-flex items-center gap-1 leading-none"
+          style="font-variant: small-caps;"
+        >
+          sobre mí
+        </a>
+        <span
+          class="text-gray-500 transition inline-flex items-center gap-1 leading-none opacity-70 mt-2 sm:mt-4"
+          aria-hidden="true">•</span
+        >
+        <a
+          href="mailto:miduga@gmail.com"
+          class="text-cyan-300 hover:text-yellow-300 transition inline-flex items-center gap-1 leading-none"
+          style="font-variant: small-caps;"
+        >
+          contacto
+        </a>
+
+        <span
+          class="text-gray-500 transition inline-flex items-center gap-1 leading-none opacity-70 mt-2 sm:mt-4"
+          aria-hidden="true">•</span
+        >
+        <a
+          href="https://www.linkedin.com/in/jose-daniel-l%C3%B3pez-cabello/"
+          target="_blank"
+          rel="noopener"
+          class="text-cyan-300 hover:text-yellow-300 transition inline-flex items-center gap-1 leading-none"
+          style="font-variant: small-caps;"
+          aria-label="LinkedIn"
+        >
+          Linkedin
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- Session Closed -->
+  <p
+    class="text-green-400 text-xs sm:text-sm text-center animate-pulse-slow mt-4"
+  >
+    Connection to <strong class="text-white">jose@portfolio</strong> closed. Terminal
+    session ended.
+  </p>
+</div>
+
+<style is:global>
+  .animate-pulse {
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  .animate-pulse-slow {
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+
+  a.text-cyan-300:hover {
+    text-shadow: 0 0 8px rgba(34, 211, 238, 0.6);
+  }
+
+  /* Disable hover effects on touch devices */
+  @media (hover: none) {
+    a.text-cyan-300:hover {
+      text-shadow: none;
+    }
+  }
+
+  /* Responsive footer improvements */
+  @media (max-width: 480px) {
+    .footer-links {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .footer-links span[aria-hidden="true"] {
+      display: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    const thanksCmd = document.querySelector(
+      '.terminal-command[data-command="This is the end!"]'
+    );
+    const logoutCmd = document.querySelector(
+      '.terminal-command[data-command="logout"]'
+    );
+    const output = document.querySelector(".terminal-output");
+    let animated = false;
+
+    const type = (el, text, cb) => {
+      const textEl = el.querySelector(".command-text");
+      const cursor = el.querySelector(".command-cursor");
+      let i = 0;
+      cursor.classList.add("active");
+      textEl.textContent = "";
+      const loop = () => {
+        if (i < text.length) {
+          textEl.textContent = text.slice(0, i + 1);
+          i++;
+          setTimeout(loop, 25 + Math.random() * 25);
+        } else {
+          cursor.classList.remove("active");
+          if (cb) cb();
+        }
+      };
+      setTimeout(loop, 200);
+    };
+
+    const reveal = () => output && output.classList.add("visible");
+
+    const scrollHandler = () => {
+      if (animated || !thanksCmd) return;
+      const rect = thanksCmd.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.9) {
+        animated = true;
+        type(thanksCmd, "This is the end!", () => {
+          if (logoutCmd) {
+            logoutCmd.style.display = "flex";
+            type(logoutCmd, "logout", () => reveal());
+          } else {
+            reveal();
+          }
+        });
+      }
+    };
+
+    scrollHandler();
+    window.addEventListener("scroll", scrollHandler, { passive: true });
+    window.addEventListener("resize", scrollHandler, { passive: true });
+
+    document.addEventListener(
+      "astro:before-preparation",
+      () => {
+        window.removeEventListener("scroll", scrollHandler);
+        window.removeEventListener("resize", scrollHandler);
+      },
+      { once: true }
+    );
+  });
+</script>

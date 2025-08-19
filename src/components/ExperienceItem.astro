@@ -1,0 +1,58 @@
+---
+import LinkInline from "./LinkInline.astro";
+import Building from "./icons/Building.astro";
+
+interface Props {
+  title: string;
+  company: string;
+  description: string;
+  link?: string;
+  date: string;
+}
+
+const { title, company, description, link, date } = Astro.props;
+---
+
+<!-- Timeline Item -->
+<div class="mb-4 last:mb-0">
+  <!-- Date -->
+  <div class="text-yellow-400 font-mono text-sm mb-1">
+    <span class="nf nf-md-calendar"></span>
+    {date}
+  </div>
+
+  <!-- Role & Company -->
+  <h3 class="text-green-400 font-bold">
+    <span class="nf nf-fa-briefcase"></span>
+    {title}
+  </h3>
+  <p class="ml-5 flex items-center gap-2">
+    <Building class="size-6" />
+    {company}
+  </p>
+
+  <!-- Description -->
+  <p class="text-gray-300 leading-relaxed ml-5 mt-2">
+    {description}
+  </p>
+
+  <!-- Optional Link -->
+  {
+    link && (
+      <div class="ml-5 mt-2">
+        <a
+          href={link}
+          is-="button"
+          tone-="info"
+          size-="sm"
+          class="inline-flex items-center gap-1 px-2 py-"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="nf nf-fa-external_link" />
+          saber más
+        </a>
+      </div>
+    )
+  }
+</div>

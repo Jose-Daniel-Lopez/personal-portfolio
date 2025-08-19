@@ -1,0 +1,252 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Experience from "@/components/Experience.astro";
+import Projects from "@/components/Projects.astro";
+import Hero from "@/components/Hero.astro";
+import Studies from "@/components/Studies.astro";
+import FooterContent from "@/components/FooterContent.astro";
+---
+
+<Layout
+  title="Portfolio de Jose - Desarrollador y Programador Web con 15 años de experiencia"
+  description="Contrata a Jose para crear tu aplicación web. Desarrollador Web y Creador de Contenido. Especializado en crear aplicaciones únicas."
+>
+  <!-- Main Content -->
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-10 py-8 max-w-4xl">
+    <!-- Header Banner (keep at very top) -->
+    <div box-="square" class="p-2 sm:p-4 max-w-none">
+      <pre
+        class="text-center text-xs sm:text-sm leading-tight mb-0 mt-3">
+        <span class="text-green-400">Jose Daniel - Full Stack Web Developer</span>
+        <span class="text-gray-300">Terminal Portfolio v1.0.0</span>
+      </pre>
+    </div>
+
+    <!-- Hero (About me) - Primary -->
+    <section id="sobre-mi" class="space-y-4">
+      <div
+        class="flex items-center gap-2 text-blue-400 terminal-command text-xs sm:text-sm"
+        data-command="./whoami"
+      >
+        <span class="shrink-0">jose@portfolio:~$</span>
+        <span class="text-gray-300 command-text" aria-hidden="true"></span>
+        <span class="command-cursor" aria-hidden="true">█</span>
+      </div>
+      <div
+        box-="square"
+        class="p-2 sm:p-4 terminal-output"
+        style="opacity: 0;"
+        role="region"
+        aria-labelledby="sobre-mi"
+      >
+        <Hero />
+      </div>
+    </section>
+
+    <!-- Projects (Showcase) - High priority for job search -->
+    <section id="proyectos" class="space-y-4">
+      <div
+        class="flex items-center gap-2 text-blue-400 terminal-command text-xs sm:text-sm"
+        data-command="./list --projects"
+      >
+        <span class="shrink-0">jose@portfolio:~$</span>
+        <span class="text-gray-300 command-text" aria-hidden="true"></span>
+        <span class="command-cursor" aria-hidden="true">█</span>
+      </div>
+      <div
+        box-="square"
+        class="p-2 sm:p-4 terminal-output"
+        style="opacity: 0;"
+        role="region"
+        aria-labelledby="proyectos"
+      >
+        <Projects />
+      </div>
+    </section>
+
+    <!-- Experience (Work history) -->
+    <section id="experiencia" class="space-y-4">
+      <div
+        class="flex items-center gap-2 text-blue-400 terminal-command text-xs sm:text-sm"
+        data-command="./show --experience"
+      >
+        <span class="shrink-0">jose@portfolio:~$</span>
+        <span class="text-gray-300 command-text" aria-hidden="true"></span>
+        <span class="command-cursor" aria-hidden="true">█</span>
+      </div>
+      <div
+        box-="square"
+        class="p-2 sm:p-4 terminal-output"
+        style="opacity: 0;"
+        role="region"
+        aria-labelledby="experiencia"
+      >
+        <Experience />
+      </div>
+    </section>
+
+    <!-- Studies (Education & courses) -->
+    <section id="mis-estudios" class="space-y-4">
+      <div
+        class="flex items-center gap-2 text-blue-400 terminal-command text-xs sm:text-sm"
+        data-command="./show --studies"
+      >
+        <span class="shrink-0">jose@portfolio:~$</span>
+        <span class="text-gray-300 command-text" aria-hidden="true"></span>
+        <span class="command-cursor" aria-hidden="true">█</span>
+      </div>
+      <div
+        box-="square"
+        class="p-2 sm:p-4 terminal-output"
+        style="opacity: 0;"
+        role="region"
+        aria-labelledby="mis-estudios"
+      >
+        <Studies />
+      </div>
+    </section>
+
+    <!-- Footer Section -->
+    <section id="footer" class="space-y-4 mt-16">
+      <FooterContent />
+    </section>
+  </div>
+
+  <!-- Inline Styles -->
+  <style is:global>
+    /* Hover effect: subtle shift */
+    section .flex:first-child:hover {
+      transform: translateX(4px);
+      transition: transform 0.2s ease;
+    }
+
+    /* Disable hover effects on touch devices */
+    @media (hover: none) {
+      section .flex:first-child:hover {
+        transform: none;
+      }
+    }
+
+    /* Text glow on hover */
+    .text-blue-400:hover {
+      text-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+    }
+    .text-green-400:hover {
+      text-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+    }
+
+    /* Disable text glow on touch devices for better performance */
+    @media (hover: none) {
+      .text-blue-400:hover,
+      .text-green-400:hover {
+        text-shadow: none;
+      }
+    }
+
+    /* Header pulse */
+    div[box-="square"]:first-of-type {
+      animation: terminal-header-pulse 3s ease-in-out infinite;
+    }
+
+    /* Reduce animation on mobile for performance */
+    @media (max-width: 640px) {
+      div[box-="square"]:first-of-type {
+        animation: none;
+      }
+    }
+
+    /* Fade-in for outputs */
+    .terminal-output {
+      transition: opacity 0.8s ease-in-out;
+    }
+    .terminal-output.visible {
+      opacity: 1 !important;
+    }
+
+    .terminal-output.visible [box-="square"] {
+      animation: terminal-fade-in 0.6s ease-out;
+    }
+
+    /* Link styling */
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Better terminal command responsiveness */
+    @media (max-width: 480px) {
+      .terminal-command {
+        font-size: 0.75rem;
+        flex-wrap: wrap;
+      }
+
+      .terminal-command span:first-child {
+        width: 100%;
+        margin-bottom: 0.25rem;
+      }
+    }
+  </style>
+
+  <!-- Animation Script -->
+  <script is:inline>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Scope to only section commands/outputs to avoid interfering with Footer animations
+      const commands = document.querySelectorAll("section .terminal-command");
+      const outputs = document.querySelectorAll("section .terminal-output");
+      const processed = new Set();
+
+      const typeCommand = (el, text, cb) => {
+        const textEl = el.querySelector(".command-text");
+        const cursor = el.querySelector(".command-cursor");
+        let i = 0;
+        cursor.classList.add("active");
+        textEl.textContent = "";
+        const type = () => {
+          if (i < text.length) {
+            textEl.textContent = text.slice(0, i + 1);
+            i++;
+            setTimeout(type, 25 + Math.random() * 25);
+          } else {
+            setTimeout(() => {
+              cursor.style.opacity = "0";
+              if (cb) cb();
+            }, 500);
+          }
+        };
+        setTimeout(type, 300);
+      };
+
+      const showOutput = (el) => {
+        setTimeout(() => el.classList.add("visible"), 250);
+      };
+
+      const handleScroll = () => {
+        commands.forEach((cmd, idx) => {
+          const rect = cmd.getBoundingClientRect();
+          const isVisible = rect.top < window.innerHeight * 0.8;
+          if (isVisible && !processed.has(idx)) {
+            processed.add(idx);
+            const cmdText = cmd.getAttribute("data-command");
+            typeCommand(cmd, cmdText, () => showOutput(outputs[idx]));
+          }
+        });
+      };
+
+      handleScroll();
+      window.addEventListener("scroll", handleScroll, { passive: true });
+      window.addEventListener("resize", handleScroll, { passive: true });
+
+      document.addEventListener(
+        "astro:before-preparation",
+        () => {
+          window.removeEventListener("scroll", handleScroll);
+          window.removeEventListener("resize", handleScroll);
+        },
+        { once: true }
+      );
+    });
+  </script>
+</Layout>

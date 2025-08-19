@@ -1,0 +1,15 @@
+/* src/styles/global.css */
+@layer base, utils, components;
+
+/* Base must come first */
+@import "@webtui/css/base.css";
+
+/* Optional: Import only the components you use */
+@import "@webtui/css/components/typography.css";
+@import "@webtui/css/components/button.css";
+@import "@webtui/css/components/badge.css";
+@import "@webtui/css/components/separator.css";
+@import "@webtui/css/utils/box.css";
+
+/* Optional: Add a theme (must come AFTER base and components) */
+@import "@webtui/theme-catppuccin";

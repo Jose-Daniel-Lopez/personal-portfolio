@@ -1,0 +1,386 @@
+---
+import ThemeToggle from "./ThemeToggle.astro";
+const navItems = [
+  {
+    title: "Sobre Mí",
+    label: "sobre-mi",
+    url: "/#sobre-mi",
+    command: "--",
+  },
+  {
+    title: "Mis Estudios",
+    label: "mis-estudios",
+    url: "/#mis-estudios",
+    command: "--",
+  },
+  {
+    title: "Experiencia",
+    label: "experiencia",
+    url: "/#experiencia",
+    command: "--",
+  },
+  {
+    title: "Proyectos",
+    label: "proyectos",
+    url: "/#proyectos",
+    command: "--",
+  },
+];
+---
+
+<header
+  class="fixed left-0 top-0 z-20 h-full transition-all duration-300 ease-in-out lg:w-64 md:w-56 sm:w-40 w-64 flex flex-col header-toggle"
+>
+  <!-- Hamburger button for mobile -->
+  <button
+    class="header-toggle-btn lg:hidden md:hidden sm:hidden fixed top-4 left-4 z-30 p-2 rounded bg-[#151b21ee] border border-background2 shadow-md"
+    aria-label="Open navigation"
+    type="button"
+  >
+    <svg
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#e0f2fe"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      ><line x1="3" y1="12" x2="21" y2="12"></line><line
+        x1="3"
+        y1="6"
+        x2="21"
+        y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg
+    >
+  </button>
+
+  <!-- Mobile overlay backdrop -->
+  <div
+    class="header-backdrop fixed inset-0 bg-black bg-opacity-50 z-10 lg:hidden md:hidden sm:hidden opacity-0 pointer-events-none transition-opacity duration-300"
+  >
+  </div>
+
+  <!-- Terminal shell/nav with gradient glass effect -->
+  <nav
+    class="terminal-nav-glass h-full flex flex-col px-5 py-6 text-sm font-mono border-r border-background2 bg-gradient-to-b from-[#151b21ee] via-[#161921e6] to-[#131722e9] backdrop-blur-[7px] shadow-xl transition-all relative z-20"
+  >
+    <!-- Terminal shell prompt -->
+    <div
+      class="flex items-center gap-2 mb-8 text-green-400 border-b border-gray-700 pb-4 select-none"
+    >
+      <span class="nf nf-fa-terminal"></span>
+      <span class="text-blue-400 terminal-user">jose@portfolio:~$</span>
+    </div>
+    <!-- Command-style navigation -->
+    <div class="flex flex-col gap-3 flex-grow">
+      {
+        navItems.map((link) => (
+          <a
+            class="cli-nav-btn flex items-center gap-2 px-4 py-2 rounded-lg border border-transparent transition-all duration-150"
+            aria-label={link.label}
+            href={link.url}
+            title={link.command}
+          >
+            <span class="cli-prompt-symbol">$</span>
+            <span class="cli-command">{link.command}</span>
+            <span class="cli-label font-bold">{link.title}</span>
+          </a>
+        ))
+      }
+    </div>
+    <!-- Theme toggle at bottom -->
+    <div class="mt-auto pt-4 border-t border-gray-700">
+      <ThemeToggle />
+    </div>
+  </nav>
+</header>
+<style>
+  /* Reset default margins */
+  header > .flex {
+    margin-bottom: 0;
+  }
+  /* Toggleable header for mobile */
+  .header-toggle {
+    transition:
+      transform 0.3s cubic-bezier(0.77, 0, 0.18, 1),
+      opacity 0.3s;
+  }
+
+  /* Mobile: header is hidden by default, shown as overlay when open */
+  @media (max-width: 767px) {
+    .header-toggle {
+      transform: translateX(-100%);
+      opacity: 0;
+      pointer-events: none;
+      width: 280px !important; /* Full width on mobile for better UX */
+    }
+    .header-toggle.open {
+      transform: translateX(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .header-toggle.open + main {
+      pointer-events: none;
+    }
+    .header-backdrop {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .header-toggle.open .header-backdrop {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .header-toggle-btn {
+      display: block;
+    }
+  }
+
+  /* Tablet and up: header is always visible and pushes content */
+  @media (min-width: 768px) {
+    .header-toggle-btn {
+      display: none;
+    }
+    .header-backdrop {
+      display: none;
+    }
+    .header-toggle {
+      transform: none;
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+  /* Terminal shell background glass effect */
+  .terminal-nav-glass {
+    border-right: 1.5px solid var(--background2, #22292f);
+    border-radius: 0 1.2rem 1.2rem 0;
+    min-width: 15.5rem;
+    animation: terminal-nav-slide 0.52s cubic-bezier(0.52, 1.61, 0.49, 0.92);
+    will-change: transform, opacity;
+    position: relative;
+    overflow: hidden;
+  }
+  @keyframes terminal-nav-slide {
+    0% {
+      opacity: 0;
+      transform: translateX(-70%);
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  /* CLI elements */
+  .cli-prompt-symbol {
+    color: var(--green-400, #16a34a);
+    font-weight: bold;
+    font-size: 1.13em;
+    user-select: none;
+    margin-right: 0.1em;
+  }
+  .cli-command {
+    color: var(--blue-400, #60a5fa);
+    font-size: 0.98em;
+    font-family: inherit;
+    opacity: 0.85;
+    margin-right: 0.4em;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+  }
+  .cli-label {
+    color: #e0f2fe;
+    font-weight: 500;
+    text-shadow: 0 1px 2px #000b;
+    transition: color 0.16s;
+  }
+  /* Nav button styling */
+  .cli-nav-btn {
+    position: relative;
+    background: #191f2538;
+    box-shadow: 0 0 0 transparent;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    outline: none;
+    min-height: 2.15em;
+    transition:
+      border-color 0.16s cubic-bezier(0.77, 0, 0.18, 1),
+      background 0.18s cubic-bezier(0.77, 0, 0.18, 1),
+      color 0.16s;
+  }
+  .cli-nav-btn:hover,
+  .cli-nav-btn:focus {
+    border-color: var(--blue-400, #60a5fa);
+    background: #20262ce6;
+    box-shadow: 0 2px 8px #17203a40;
+    text-decoration: none;
+  }
+  .cli-nav-btn:active {
+    background: #181e2380;
+    outline: 1.5px solid var(--blue-400, #60a5fa);
+  }
+  .cli-nav-btn.active,
+  .cli-nav-btn[aria-current="page"] {
+    background: #212f3e99;
+    border-color: var(--green-400, #16a34a);
+    color: var(--green-300, #6ee7b7);
+    box-shadow: 0 1px 8px #2563eb26;
+  }
+  .cli-nav-btn.active .cli-label,
+  .cli-nav-btn[aria-current="page"] .cli-label {
+    color: var(--green-400, #16a34a);
+  }
+  /* Accessibility focus */
+  .cli-nav-btn:focus-visible {
+    outline: 2px solid var(--green-400, #16a34a);
+    outline-offset: 2px;
+  }
+  /*
+   * Responsive Design: Progressive & Usable
+   */
+  @media (min-width: 1024px) {
+    .terminal-nav-glass {
+      min-width: 15.5rem;
+    }
+  }
+  @media (max-width: 1023px) and (min-width: 768px) {
+    header {
+      width: 14rem;
+    }
+    .terminal-nav-glass {
+      padding: 1rem 0.75rem;
+      font-size: 0.875rem;
+      border-radius: 0 1rem 1rem 0;
+      min-width: 13rem;
+    }
+    .cli-command {
+      font-size: 0.85em;
+      opacity: 0.8;
+    }
+    .cli-label {
+      font-size: 0.95em;
+    }
+  }
+  @media (max-width: 767px) and (min-width: 640px) {
+    header {
+      width: 10rem;
+    }
+    .terminal-nav-glass {
+      padding: 1rem 0.6rem;
+      font-size: 0.85rem;
+      min-width: 12rem;
+    }
+    .cli-command {
+      display: none;
+    }
+    .cli-label {
+      font-size: 1em;
+      margin-left: 0.3em;
+    }
+    .cli-nav-btn {
+      padding: 0.6rem 0.8rem;
+    }
+  }
+  /* Mobile: Full navigation with better spacing */
+  @media (max-width: 639px) {
+    .terminal-nav-glass {
+      padding: 1.5rem 1rem;
+      border-radius: 0;
+      min-width: 280px;
+      width: 100%;
+    }
+    .terminal-user {
+      font-size: 0.9em;
+    }
+    .cli-command {
+      display: none;
+    }
+    .cli-label {
+      font-size: 1em;
+      margin-left: 0.3em;
+    }
+    .cli-nav-btn {
+      padding: 0.8rem 1rem;
+      min-height: 3em;
+      justify-content: flex-start;
+    }
+    /* Remove tooltip on mobile for better UX */
+    .cli-nav-btn::after {
+      display: none;
+    }
+  }
+</style>
+<script>
+  // @ts-nocheck
+  document.addEventListener("astro:page-load", () => {
+    const sections = document.querySelectorAll("section[id]");
+    const navItems = document.querySelectorAll("header nav a.cli-nav-btn");
+    const header = document.querySelector("header.header-toggle");
+    const toggleBtn = document.querySelector(".header-toggle-btn");
+    function makeActive(label) {
+      navItems.forEach((item) => {
+        if (item.getAttribute("aria-label") === label) {
+          item.classList.add("active");
+          item.setAttribute("aria-current", "page");
+        } else {
+          item.classList.remove("active");
+          item.removeAttribute("aria-current");
+        }
+      });
+    }
+    const callback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          makeActive(entry.target.id);
+        }
+      });
+    };
+    const observer = new IntersectionObserver(callback, {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.3,
+    });
+    sections.forEach((section) => {
+      observer.observe(section);
+    });
+    document.addEventListener(
+      "astro:before-preparation",
+      () => observer.disconnect(),
+      { once: true }
+    );
+    // Mobile header toggle logic
+    if (toggleBtn && header) {
+      const backdrop = header.querySelector(".header-backdrop");
+
+      toggleBtn.addEventListener("click", () => {
+        header.classList.toggle("open");
+      });
+
+      // Close header when clicking backdrop
+      if (backdrop) {
+        backdrop.addEventListener("click", () => {
+          header.classList.remove("open");
+        });
+      }
+
+      // Close header when clicking outside (mobile only)
+      document.addEventListener("click", (e) => {
+        if (
+          header.classList.contains("open") &&
+          !header.contains(e.target) &&
+          !toggleBtn.contains(e.target)
+        ) {
+          header.classList.remove("open");
+        }
+      });
+
+      // Close on escape key
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && header.classList.contains("open")) {
+          header.classList.remove("open");
+        }
+      });
+    }
+  });
+</script>
