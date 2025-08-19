@@ -184,7 +184,7 @@ const THEMES = ["Catpuccin", "Everforest", "Gruvbox", "Vitesse"];
   };
 
   const updateThemeIndicators = () => {
-    const selectedTheme = localStorage.getItem("selectedTheme") || "";
+    const selectedTheme = localStorage.getItem("selectedTheme") || "Catpuccin";
     document.querySelectorAll(".themes-menu-option").forEach((element) => {
       const themeCheck = element.querySelector(".theme-check");
       const themeName = element.querySelector("span").textContent.trim();
@@ -207,7 +207,7 @@ const THEMES = ["Catpuccin", "Everforest", "Gruvbox", "Vitesse"];
     const selectedTheme =
       (typeof localStorage !== "undefined"
         ? localStorage.getItem("selectedTheme")
-        : "") || "";
+        : "") || "Catpuccin";
     const forceDark = [
       "catpuccin",
       "everforest",

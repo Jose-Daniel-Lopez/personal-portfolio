@@ -38,9 +38,9 @@ const { title, description } = Astro.props;
 
         const getSelectedTheme = () => {
           if (typeof localStorage !== "undefined") {
-            return localStorage.getItem("selectedTheme") ?? "";
+            return localStorage.getItem("selectedTheme") ?? "Catpuccin";
           }
-          return "";
+          return "Catpuccin";
         };
 
         const themePreference = getThemePreference();
