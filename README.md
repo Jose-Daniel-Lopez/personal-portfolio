@@ -10,7 +10,7 @@
   ![Tailwind CSS Badge](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?logo=tailwindcss&logoColor=fff&style=flat)
   ![TypeScript Badge](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff&style=flat)
   
-  [🌐 Ver Portfolio](https://tab-to-dev.click/jose-portfolio) • [📧 Contacto](mailto:jose@example.com) • [💼 LinkedIn](https://linkedin.com/in/jose-daniel-lopez)
+  [🌐 Ver Portfolio](https://tab-to-dev.click/jose-portfolio) • [📧 Contacto](mailto:joseslopez08k@gmail.com) • [💼 LinkedIn](https://linkedin.com/in/jose-daniel-lopez-cabello)
 
 </div>
 
@@ -205,11 +205,11 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo [LICENSE.md](LICENSE.md
 
 **José Daniel López** - Full Stack Web Developer
 
-- 💼 **Experiencia**: 15+ años en desarrollo web
-- 🎯 **Especialización**: Aplicaciones web modernas y escalables
-- 📍 **Ubicación**: España
-- 📧 **Email**: [Contacto](mailto:jose@example.com)
-- 💼 **LinkedIn**: [Perfil Profesional](https://linkedin.com/in/jose-daniel-lopez)
+- 💼 **Experiencia**: Aunque aún cuento con poca experiencia profesional. Estoy en búsqueda activa de empleo para demostrar mis habilidades!
+- 🎯 **Especialización**: Aplicaciones web modernas y escalables. Me especializo en backend con Spring.
+- 📍 **Ubicación**: Málaga, España
+- 📧 **Email**: [Contacto](mailto:joseslopez08k@gmail.com.com)
+- 💼 **LinkedIn**: [Perfil Profesional](https://linkedin.com/in/jose-daniel-lopez-cabello)
 
 ### 🛠️ Stack Tecnológico
 
