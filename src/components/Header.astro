@@ -28,38 +28,38 @@ const navItems = [
 ];
 ---
 
+<!-- Hamburger button for mobile (outside header so it remains clickable when header is hidden) -->
+<button
+  class="header-toggle-btn md:hidden fixed top-4 left-4 z-30 p-2 rounded bg-[#151b21ee] border border-background2 shadow-md"
+  aria-label="Open navigation"
+  type="button"
+>
+  <svg
+    width="28"
+    height="28"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="#e0f2fe"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    ><line x1="3" y1="12" x2="21" y2="12"></line><line
+      x1="3"
+      y1="6"
+      x2="21"
+      y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg
+  >
+</button>
+
+<!-- Mobile overlay backdrop (outside header so it covers page and is clickable) -->
+<div
+  class="header-backdrop fixed inset-0 bg-black bg-opacity-50 z-10 md:hidden opacity-0 pointer-events-none transition-opacity duration-300"
+>
+</div>
+
 <header
   class="fixed left-0 top-0 z-20 h-full transition-all duration-300 ease-in-out lg:w-64 md:w-56 sm:w-40 w-64 flex flex-col header-toggle"
 >
-  <!-- Hamburger button for mobile -->
-  <button
-    class="header-toggle-btn lg:hidden md:hidden sm:hidden fixed top-4 left-4 z-30 p-2 rounded bg-[#151b21ee] border border-background2 shadow-md"
-    aria-label="Open navigation"
-    type="button"
-  >
-    <svg
-      width="28"
-      height="28"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="#e0f2fe"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      ><line x1="3" y1="12" x2="21" y2="12"></line><line
-        x1="3"
-        y1="6"
-        x2="21"
-        y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg
-    >
-  </button>
-
-  <!-- Mobile overlay backdrop -->
-  <div
-    class="header-backdrop fixed inset-0 bg-black bg-opacity-50 z-10 lg:hidden md:hidden sm:hidden opacity-0 pointer-events-none transition-opacity duration-300"
-  >
-  </div>
-
   <!-- Terminal shell/nav with gradient glass effect -->
   <nav
     class="terminal-nav-glass h-full flex flex-col px-5 py-6 text-sm font-mono border-r border-background2 bg-gradient-to-b from-[#151b21ee] via-[#161921e6] to-[#131722e9] backdrop-blur-[7px] shadow-xl transition-all relative z-20"
@@ -119,14 +119,11 @@ const navItems = [
       opacity: 1;
       pointer-events: auto;
     }
-    .header-toggle.open + main {
-      pointer-events: none;
-    }
     .header-backdrop {
       opacity: 0;
       pointer-events: none;
     }
-    .header-toggle.open .header-backdrop {
+    .header-backdrop.open {
       opacity: 1;
       pointer-events: auto;
     }
@@ -351,17 +348,20 @@ const navItems = [
     );
     // Mobile header toggle logic
     if (toggleBtn && header) {
-      const backdrop = header.querySelector(".header-backdrop");
+      const backdrop = document.querySelector(".header-backdrop");
+
+      const setOpen = (isOpen) => {
+        header.classList.toggle("open", isOpen);
+        if (backdrop) backdrop.classList.toggle("open", isOpen);
+      };
 
       toggleBtn.addEventListener("click", () => {
-        header.classList.toggle("open");
+        setOpen(!header.classList.contains("open"));
       });
 
       // Close header when clicking backdrop
       if (backdrop) {
-        backdrop.addEventListener("click", () => {
-          header.classList.remove("open");
-        });
+        backdrop.addEventListener("click", () => setOpen(false));
       }
 
       // Close header when clicking outside (mobile only)
@@ -371,14 +371,14 @@ const navItems = [
           !header.contains(e.target) &&
           !toggleBtn.contains(e.target)
         ) {
-          header.classList.remove("open");
+          setOpen(false);
         }
       });
 
       // Close on escape key
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && header.classList.contains("open")) {
-          header.classList.remove("open");
+          setOpen(false);
         }
       });
     }
