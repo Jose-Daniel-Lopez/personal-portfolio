@@ -1,7 +1,7 @@
 # 💼 Portfolio Personal - José Daniel López
 
 <div align="center">
-  <img src="./public/porfolio.webp" alt="Portfolio Preview" width="600">
+  <img src="./public/portfolio.webp" alt="Portfolio Preview" width="600">
   
   **Un portfolio web moderno con diseño de terminal interactivo**
   
