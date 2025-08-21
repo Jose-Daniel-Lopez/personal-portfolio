@@ -1,5 +1,7 @@
 ---
 const currentYear = new Date().getFullYear();
+const baseUrl = (import.meta.env && import.meta.env.BASE_URL) || "/";
+const baseRoot = baseUrl === "/" ? "" : baseUrl.replace(/\/$/, "");
 ---
 
 <div class="space-y-4">
@@ -51,7 +53,7 @@ const currentYear = new Date().getFullYear();
         class="footer-links flex flex-wrap justify-center items-center gap-2 sm:gap-4 text-xs sm:text-sm"
       >
         <a
-          href="/#sobre-mi"
+          href={`${baseRoot}/#sobre-mi`}
           class="text-cyan-300 hover:text-yellow-300 transition inline-flex items-center gap-1 leading-none"
           style="font-variant: small-caps;"
         >

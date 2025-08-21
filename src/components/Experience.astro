@@ -1,6 +1,8 @@
 ---
 import ExperienceItem from "./ExperienceItem.astro";
 import Briefcase from "./icons/Briefcase.astro";
+const baseUrl = (import.meta.env && import.meta.env.BASE_URL) || "/";
+const baseRoot = baseUrl === "/" ? "" : baseUrl.replace(/\/$/, "");
 const EXPERIENCE = [
   {
     date: "Marzo 2024 - Junio 2024",
@@ -8,7 +10,7 @@ const EXPERIENCE = [
     company: "Viewnext S.A (IBM)",
     description:
       "Aprendí sobre automatización de procesos y desarrollo de software. Superando pruebas y realizando proyectos reales de RPA.",
-    link: "/src/assets/cv/CV-Jose_Daniel_Lopez_Cabello.pdf",
+    link: `${baseRoot}/src/assets/cv/CV-Jose_Daniel_Lopez_Cabello.pdf`,
   },
   {
     date: "Junio 2023 - Septiembre 2023",
@@ -16,7 +18,7 @@ const EXPERIENCE = [
     company: "Náyora Cosmetics",
     description:
       "Optimización y formalización de procesos de gestión de datos. Implementación de soluciones para mejorar la eficiencia. Control y seguimiento de la calidad de los datos.",
-    link: "/src/assets/cv/CV-Jose_Daniel_Lopez_Cabello.pdf",
+    link: `${baseRoot}/src/assets/cv/CV-Jose_Daniel_Lopez_Cabello.pdf`,
   },
 ];
 ---

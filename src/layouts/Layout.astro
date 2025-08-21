@@ -9,6 +9,11 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+// Resolve public asset path to respect `astro.config.mjs` `base` setting.
+// Astro exposes the base at build time as import.meta.env.BASE_URL.
+// When running dev or if BASE_URL is '/', normalize to an empty string.
+const baseUrl = (import.meta.env && import.meta.env.BASE_URL) || "/";
+const baseRoot = baseUrl === "/" ? "" : baseUrl.replace(/\/$/, "");
 ---
 
 <!doctype html>
@@ -19,7 +24,7 @@ const { title, description } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#1e1e2e" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={`${baseRoot}/favicon.svg`} />
     <title>{title}</title>
     <ViewTransitions />
 
