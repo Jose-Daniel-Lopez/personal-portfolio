@@ -1,0 +1,197 @@
+---
+import Code from "./icons/Code.astro";
+import React from "./icons/React.astro";
+import AstroIcon from "./icons/AstroIcon.astro";
+import Vue from "./icons/Vue.astro";
+import Spring from "./icons/Spring.astro";
+import Tailwind from "./icons/Tailwind.astro";
+import NodeJS from "./icons/NodeJS.astro";
+import Cpp from "./icons/Cpp.astro";
+import Java from "./icons/Java.astro";
+import TypeScript from "./icons/TypeScript.astro";
+import JavaScript from "./icons/JavaScript.astro";
+import MariaDB from "./icons/MariaDB.astro";
+import MySQL from "./icons/MySQL.astro";
+import PostgreSQL from "./icons/PostgreSQL.astro";
+import Mongo from "./icons/Mongo.astro";
+import Bootstrap from "./icons/Bootstrap.astro";
+
+const TECH_TAGS = {
+  SPRING: {
+    name: "Spring",
+    class: "bg-[#2a9902] text-white",
+    icon: Spring,
+  },
+  NODE: {
+    name: "Node.js",
+    class: "bg-[#2a9902] text-white",
+    icon: NodeJS,
+  },
+  JAVA: {
+    name: "Java",
+    class: "bg-[#004b96] text-white",
+    icon: Java,
+  },
+  CPP: {
+    name: "C++",
+    class: "bg-[#005d82] text-white",
+    icon: Cpp,
+  },
+  VUE: {
+    name: "Vue.js",
+    class: "bg-[#4FC08D] text-white",
+    icon: Vue,
+  },
+  REACT: {
+    name: "React",
+    class: "bg-[#618afb] text-white",
+    icon: React,
+  },
+  ASTRO: {
+    name: "Astro",
+    class: "bg-[#FF5D01] text-white",
+    icon: AstroIcon,
+  },
+  TYPESCRIPT: {
+    name: "TypeScript",
+    class: "bg-[#3178C6] text-white",
+    icon: TypeScript,
+  },
+  JAVASCRIPT: {
+    name: "JavaScript",
+    class: "bg-[#F7DF1E] text-black",
+    icon: JavaScript,
+  },
+  TAILWIND: {
+    name: "Tailwind CSS",
+    class: "bg-[#067ed4] text-white",
+    icon: Tailwind,
+  },
+  BOOTSTRAP: {
+    name: "Bootstrap",
+    class: "bg-[#af6efa] text-white",
+    icon: Bootstrap,
+  },
+  MYSQL: {
+    name: "MySQL",
+    class: "bg-[#4479A1] text-white",
+    icon: MySQL,
+  },
+  POSTGRESQL: {
+    name: "PostgreSQL",
+    class: "bg-[#336791] text-white",
+    icon: PostgreSQL,
+  },
+  MARIADB: {
+    name: "MariaDB",
+    class: "bg-[#003545] text-white",
+    icon: MariaDB,
+  },
+  MONGODB: {
+    name: "MongoDB",
+    class: "bg-[#4DB33D] text-white",
+    icon: Mongo,
+  },
+};
+
+interface TechCategory {
+  title: string;
+  technologies: Array<{
+    name: string;
+    class: string;
+    icon: any;
+  }>;
+}
+
+const TECH_CATEGORIES: TechCategory[] = [
+  {
+    title: "Backend Technologies",
+    technologies: [TECH_TAGS.SPRING, TECH_TAGS.NODE, TECH_TAGS.JAVA, TECH_TAGS.CPP],
+  },
+  {
+    title: "Frontend Technologies",
+    technologies: [TECH_TAGS.VUE, TECH_TAGS.REACT, TECH_TAGS.ASTRO, TECH_TAGS.TYPESCRIPT, TECH_TAGS.JAVASCRIPT],
+  },
+  {
+    title: "Database Technologies",
+    technologies: [TECH_TAGS.MYSQL, TECH_TAGS.POSTGRESQL, TECH_TAGS.MARIADB, TECH_TAGS.MONGODB],
+  },
+  {
+    title: "Styling & UI",
+    technologies: [TECH_TAGS.TAILWIND, TECH_TAGS.BOOTSTRAP],
+  },
+];
+---
+
+<!-- Terminal Window Top Bar -->
+<div class="flex mb-2 items-center gap-1 w-fit select-none">
+  <span class="w-3 h-3 rounded-full bg-red-500"></span>
+  <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+  <span class="w-3 h-3 rounded-full bg-green-500"></span>
+</div>
+
+<!-- Terminal Container -->
+<div
+  class="font-mono text-sm leading-tight max-w-6xl mx-auto p-4"
+  style="--box-border-color: var(--background2); --box-border-width: 1px; background-color: var(--background1);"
+>
+  <!-- Terminal Header -->
+  <div class="flex items-center gap-2 mb-4">
+    <Code class="size-6 block shrink-0" />
+    <h2 class="text-green-400 font-bold">
+      <span class="nf nf-dev-terminal" /> Mi Arsenal Tecnológico
+    </h2>
+  </div>
+
+  <!-- Terminal Content -->
+  <div 
+    class="border p-4 rounded bg-[var(--background1)]"
+    style="border-color: var(--box-border-color); border-width: var(--box-border-width);"
+  >
+
+    <!-- Tech Stack Grid -->
+    <div class="grid md:grid-cols-2 gap-6">
+      {TECH_CATEGORIES.map((category, index) => (
+        <div class="space-y-3">
+          <!-- Category Header with Terminal Style -->
+          <div class="flex items-center gap-2">
+            <span class="text-yellow-400">└─</span>
+            <span class="text-green-400 font-bold">{category.title}</span>
+            <span class="text-gray-500 flex-1 border-b border-dotted border-gray-600"></span>
+          </div>
+
+          <!-- Technologies List -->
+          <div class="ml-4 space-y-2">
+            {category.technologies.map((tech, techIndex) => (
+              <div class="flex items-center gap-3">
+                <span class="text-blue-400">
+                  {techIndex === category.technologies.length - 1 ? "└──" : "├──"}
+                </span>
+                <span
+                  class={`inline-flex items-center gap-x-2 px-3 py-1.5 text-sm font-medium shadow-md border border-cyan-400/30 transition-all duration-200 hover:scale-105 ${tech.class}`}
+                  style="box-shadow: 0 2px 8px rgba(34,211,238,0.15);"
+                >
+                  <tech.icon class="size-4 block" />
+                  {tech.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Hover effects for tech badges */
+  .tech-badge:hover {
+    box-shadow: 0 0 12px 2px rgba(34,211,238,0.35);
+    transform: scale(1.08);
+  }
+  
+  /* Terminal-style text selection */
+  ::selection {
+    background-color: rgba(34, 211, 238, 0.3);
+  }
+</style>
