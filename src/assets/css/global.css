@@ -1,48 +1,63 @@
 /* ===========================
-  WebTUI Imports - must come first
-  =========================== */
-/* Define layers so theme styles attach to the right buckets */
+   📦 WEBTUI FRAMEWORK IMPORTS
+   ===========================
+   These imports MUST come first to ensure proper layering and theming.
+   WebTUI uses CSS `@layer` for predictable style cascading.
+*/
+
+/* Define explicit style layers to control cascade order */
 @layer base, utils, components;
 
-/* Base must come first */
+/* Base styles (reset, defaults) must be loaded first */
 @import "@webtui/css/base.css";
 
-/* Import the specific component styles you use */
+/* Import only the WebTUI components used in the project */
 @import "@webtui/css/components/badge.css";
 @import "@webtui/css/components/button.css";
 @import "@webtui/css/components/typography.css";
 @import "@webtui/css/components/separator.css";
 @import "@webtui/css/utils/box.css";
 
-/* Themes MUST come after base + components */
+/* 🎨 Themes: MUST come AFTER base and component styles to override correctly */
+/* Multiple themes are imported for potential runtime switching (e.g., via JS) */
 @import "@webtui/theme-catppuccin";
 @import "@webtui/theme-everforest";
 @import "@webtui/theme-gruvbox";
 @import "@webtui/theme-vitesse";
 
+
 /* ===========================
-   Tailwind directives - must come after imports
-   =========================== */
+   🧱 TAILWIND CSS DIRECTIVES
+   ===========================
+   Must come AFTER all @import rules to allow utility layering.
+   Tailwind injects its own base, component, and utility styles.
+*/
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+
 /* ===========================
-   Custom Terminal Styles
-   =========================== */
+   🖥️  CUSTOM TERMINAL STYLES
+   ===========================
+   Overrides and enhancements for a terminal-like UI experience.
+*/
+
+/* Global body styling: monospace font stack and terminal color scheme */
 body {
   font-family: "JetBrains Mono", "Fira Code",
     Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
   margin: 0;
   padding: 0;
-  background-color: var(--background0);
-  color: var(--foreground0);
+  background-color: var(--background0); /* Themed background */
+  color: var(--foreground0);           /* Themed text */
   line-height: 1.5;
 }
 
+/* Terminal output blocks (e.g., preformatted logs or code) */
 .terminal-output {
   font-family: inherit;
-  white-space: pre-wrap;
+  white-space: pre-wrap; /* Preserves whitespace but wraps long lines */
 }
 
 .terminal-output pre {
@@ -53,27 +68,41 @@ body {
   line-height: 1.4;
 }
 
+/* Command prompt styling (e.g., green username@host) */
 .command-prompt {
-  color: #a6e3a1;
+  color: #a6e3a1; /* Catppuccin-like green */
   font-weight: bold;
 }
 
+/* Subtle hover effect for links */
 a:hover {
-  background-color: rgba(116, 199, 236, 0.1);
+  background-color: rgba(116, 199, 236, 0.1); /* Soft blue tint */
   transition: background-color 0.2s ease;
 }
 
-/* Blinking Cursor (used globally) */
+
+/* ===========================
+   🌟 ANIMATIONS
+   =========================== */
+
+/* Blinking cursor effect for terminal inputs */
 @keyframes cursor-blink {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
 }
+
+/* Apply blinking cursor to elements with these classes */
 .cursor-blink,
 .command-cursor {
   animation: cursor-blink 1s infinite;
 }
 
-/* Navigation Hover */
+
+/* ===========================
+   🧭 NAVIGATION & INTERACTIONS
+   =========================== */
+
+/* Base styles for navigation links and menu items */
 nav a,
 .menu-item {
   color: var(--foreground0);
@@ -83,36 +112,59 @@ nav a,
   transition: all 0.2s ease;
 }
 
+/* Hover state for navigation: subtle background + themed text color */
 nav a:hover,
 .menu-item:hover {
   background-color: var(--background2);
-  color: var(--green-400, #86efac);
+  color: var(--green-400, #86efac); /* Fallback: Tailwind green if var not set */
 }
 
-/* === Design Tokens === */
+
+/* ===========================
+   🎨 DESIGN TOKENS (CSS CUSTOM PROPERTIES)
+   ===========================
+   Centralized responsive values for layout consistency.
+   Used in containers, spacing, and readability.
+*/
+
 :root {
-  --container-max: 1280px;
-  --container-wide: 1440px;
-  --container-pad: clamp(16px, 4vw, 48px);
-  --reading-max: 72ch;
+  --container-max: 1280px;                    /* Max width for standard content */
+  --container-wide: 1440px;                   /* Wider layout (e.g., hero sections) */
+  --container-pad: clamp(16px, 4vw, 48px);    /* Responsive horizontal padding */
+  --reading-max: 72ch;                        /* Optimal line length for readability */
 }
 
-/* === Responsive Containers === */
+
+/* ===========================
+   📐 CONTAINER CLASSES
+   ===========================
+   Responsive containers for content alignment and max-width control.
+*/
+
+/* Standard responsive container */
 .container {
   width: min(100% - 2 * var(--container-pad), var(--container-max));
   margin-inline: auto;
 }
 
+/* Wider container variant */
 .container-wide {
   width: min(100% - 2 * var(--container-pad), var(--container-wide));
   margin-inline: auto;
 }
 
+/* Typography container: limits line length for better readability */
 .prose-max {
   max-width: var(--reading-max);
 }
 
-/* === Responsive Padding Override === */
+
+/* ===========================
+   📱 RESPONSIVE PADDING ADJUSTMENTS
+   ===========================
+   Fine-tune padding based on device size.
+*/
+
 @media (max-width: 640px) {
   :root {
     --container-pad: 16px;
@@ -131,48 +183,64 @@ nav a:hover,
   }
 }
 
-/* === Main Content Spacing === */
+
+/* ===========================
+   🧱 MAIN CONTENT LAYOUT
+   ===========================
+   Responsive spacing and margin adjustments for main content area.
+   Accounts for side navigation on larger screens.
+*/
+
 main#main-content {
   padding-block: clamp(24px, 6vh, 72px);
-  /* Add responsive margin to account for fixed header */
   margin-left: 0;
   transition: margin-left 0.3s ease-in-out;
 }
 
-/* Desktop: account for header width */
+/* Desktop: sidebar present, shift content right */
 @media (min-width: 1024px) {
   main#main-content {
-    margin-left: 16rem; /* 64 in Tailwind = 16rem */
+    margin-left: 16rem; /* Matches sidebar width (64 * 0.25rem = 16rem) */
   }
 }
 
+/* Tablet landscape: smaller sidebar */
 @media (max-width: 1023px) and (min-width: 768px) {
   main#main-content {
-    margin-left: 14rem; /* 56 in Tailwind = 14rem */
+    margin-left: 14rem; /* 56 * 0.25rem = 14rem */
   }
 }
 
+/* Small tablet */
 @media (max-width: 767px) and (min-width: 640px) {
   main#main-content {
-    margin-left: 10rem; /* 40 in Tailwind = 10rem */
+    margin-left: 10rem; /* 40 * 0.25rem = 10rem */
   }
 }
 
-/* Mobile: no margin, header is overlay */
+/* Mobile: no sidebar, but add top padding to avoid header overlap */
 @media (max-width: 639px) {
   main#main-content {
     margin-left: 0;
-    /* Add padding top to avoid content being hidden behind hamburger button */
-    padding-top: clamp(64px, 8vh, 96px);
+    padding-top: clamp(64px, 8vh, 96px); /* Space for fixed header/hamburger */
   }
 }
 
-/* === Shared Animations (used in index & footer) === */
+
+/* ===========================
+   🌀 SHARED ANIMATIONS
+   ===========================
+   Reusable keyframes for terminal effects and UI feedback.
+   Used across components (e.g., hero, footer).
+*/
+
+/* Alternate blinking effect (can differ from cursor-blink if needed) */
 @keyframes terminal-blink {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
 }
 
+/* Fade-in with slight upward motion (used for typed or revealed content) */
 @keyframes terminal-fade-in {
   0% {
     opacity: 0;
@@ -184,7 +252,19 @@ main#main-content {
   }
 }
 
+/* Pulse animation for active indicators or call-to-action elements */
 @keyframes pulse {
   0%, 100% { opacity: 0.8; }
   50% { opacity: 1; }
+}
+
+
+/* ===========================
+   💡 ADDITIONAL HOOKS (Optional)
+   ===========================
+   Example: Enhance button hover state with consistent feedback.
+   Can be extended based on design system needs.
+*/
+[is-="button"]:hover {
+  color: white;
 }

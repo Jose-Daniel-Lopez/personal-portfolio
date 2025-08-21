@@ -1,5 +1,14 @@
 ---
+// === IMPORTS ===
 import ThemeToggle from "./ThemeToggle.astro";
+
+// === NAVIGATION DATA ===
+// Define navigation items as structured data for reuse and clarity.
+// Each item includes:
+// - title: Display text
+// - label: ARIA/accessibility label and ID reference
+// - url: Anchor link target
+// - command: Placeholder for CLI-style display (currently unused)
 const navItems = [
   {
     title: "Sobre Mí",
@@ -28,10 +37,10 @@ const navItems = [
 ];
 ---
 
-<!-- Hamburger button for mobile (outside header so it remains clickable when header is hidden) -->
+<!-- === MOBILE HAMBURGER BUTTON (Outside Header) === --><!-- Positioned independently so it remains interactive when sidebar is hidden -->
 <button
   class="header-toggle-btn md:hidden fixed top-4 left-4 z-30 p-2 rounded bg-[#151b21ee] border border-background2 shadow-md"
-  aria-label="Open navigation"
+  aria-label="Abrir navegación"
   type="button"
 >
   <svg
@@ -43,35 +52,37 @@ const navItems = [
     stroke-width="2"
     stroke-linecap="round"
     stroke-linejoin="round"
-    ><line x1="3" y1="12" x2="21" y2="12"></line><line
-      x1="3"
-      y1="6"
-      x2="21"
-      y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg
   >
+    <line x1="3" y1="12" x2="21" y2="12"></line>
+    <line x1="3" y1="6" x2="21" y2="6"></line>
+    <line x1="3" y1="18" x2="21" y2="18"></line>
+  </svg>
 </button>
 
-<!-- Mobile overlay backdrop (outside header so it covers page and is clickable) -->
+<!-- === MOBILE BACKDROP (Overlay) === -->
+<!-- Covers the screen to close the sidebar when clicking outside -->
 <div
   class="header-backdrop fixed inset-0 bg-black bg-opacity-50 z-10 md:hidden opacity-0 pointer-events-none transition-opacity duration-300"
+  aria-hidden="true"
 >
 </div>
 
+<!-- === SIDEBAR NAVIGATION HEADER === -->
 <header
   class="fixed left-0 top-0 z-20 h-full transition-all duration-300 ease-in-out lg:w-64 md:w-56 sm:w-40 w-64 flex flex-col header-toggle"
 >
-  <!-- Terminal shell/nav with gradient glass effect -->
   <nav
     class="terminal-nav-glass h-full flex flex-col px-5 py-6 text-sm font-mono border-r border-background2 bg-gradient-to-b from-[#151b21ee] via-[#161921e6] to-[#131722e9] backdrop-blur-[7px] shadow-xl transition-all relative z-20"
   >
-    <!-- Terminal shell prompt -->
+    <!-- Terminal Prompt -->
     <div
       class="flex items-center gap-2 mb-8 text-green-400 border-b border-gray-700 pb-4 select-none"
     >
       <span class="nf nf-fa-terminal"></span>
       <span class="text-blue-400 terminal-user">jose@portfolio:~$</span>
     </div>
-    <!-- Command-style navigation -->
+
+    <!-- Navigation Links (CLI-Style) -->
     <div class="flex flex-col gap-3 flex-grow">
       {
         navItems.map((link) => (
@@ -88,31 +99,35 @@ const navItems = [
         ))
       }
     </div>
-    <!-- Theme toggle at bottom -->
+
+    <!-- Theme Toggle (Stays at Bottom) -->
     <div class="mt-auto pt-4 border-t border-gray-700">
       <ThemeToggle />
     </div>
   </nav>
 </header>
+
+<!-- === STYLES === -->
 <style>
-  /* Reset default margins */
+  /* Reset default margins in flex container */
   header > .flex {
     margin-bottom: 0;
   }
-  /* Toggleable header for mobile */
+
+  /* === MOBILE HEADER TOGGLE BEHAVIOR === */
+  /* Slide-in/out animation for mobile sidebar */
   .header-toggle {
     transition:
       transform 0.3s cubic-bezier(0.77, 0, 0.18, 1),
       opacity 0.3s;
   }
 
-  /* Mobile: header is hidden by default, shown as overlay when open */
   @media (max-width: 767px) {
     .header-toggle {
       transform: translateX(-100%);
       opacity: 0;
       pointer-events: none;
-      width: 280px !important; /* Full width on mobile for better UX */
+      width: 280px !important; /* Wider for mobile usability */
     }
     .header-toggle.open {
       transform: translateX(0);
@@ -132,7 +147,8 @@ const navItems = [
     }
   }
 
-  /* Tablet and up: header is always visible and pushes content */
+  /* === DESKTOP BEHAVIOR === */
+  /* On tablet and up: always visible, no toggle/backdrop */
   @media (min-width: 768px) {
     .header-toggle-btn {
       display: none;
@@ -146,7 +162,8 @@ const navItems = [
       pointer-events: auto;
     }
   }
-  /* Terminal shell background glass effect */
+
+  /* === TERMINAL NAVIGATION GLASS EFFECT === */
   .terminal-nav-glass {
     border-right: 1.5px solid var(--background2, #22292f);
     border-radius: 0 1.2rem 1.2rem 0;
@@ -156,6 +173,7 @@ const navItems = [
     position: relative;
     overflow: hidden;
   }
+
   @keyframes terminal-nav-slide {
     0% {
       opacity: 0;
@@ -169,7 +187,8 @@ const navItems = [
       transform: translateX(0);
     }
   }
-  /* CLI elements */
+
+  /* === CLI-STYLE NAV ELEMENTS === */
   .cli-prompt-symbol {
     color: var(--green-400, #16a34a);
     font-weight: bold;
@@ -177,6 +196,7 @@ const navItems = [
     user-select: none;
     margin-right: 0.1em;
   }
+
   .cli-command {
     color: var(--blue-400, #60a5fa);
     font-size: 0.98em;
@@ -186,13 +206,15 @@ const navItems = [
     white-space: nowrap;
     letter-spacing: 0.01em;
   }
+
   .cli-label {
     color: #e0f2fe;
     font-weight: 500;
     text-shadow: 0 1px 2px #000b;
     transition: color 0.16s;
   }
-  /* Nav button styling */
+
+  /* === NAVIGATION BUTTON STYLES === */
   .cli-nav-btn {
     position: relative;
     background: #191f2538;
@@ -206,6 +228,7 @@ const navItems = [
       background 0.18s cubic-bezier(0.77, 0, 0.18, 1),
       color 0.16s;
   }
+
   .cli-nav-btn:hover,
   .cli-nav-btn:focus {
     border-color: var(--blue-400, #60a5fa);
@@ -213,10 +236,12 @@ const navItems = [
     box-shadow: 0 2px 8px #17203a40;
     text-decoration: none;
   }
+
   .cli-nav-btn:active {
     background: #181e2380;
     outline: 1.5px solid var(--blue-400, #60a5fa);
   }
+
   .cli-nav-btn.active,
   .cli-nav-btn[aria-current="page"] {
     background: #212f3e99;
@@ -224,23 +249,25 @@ const navItems = [
     color: var(--green-300, #6ee7b7);
     box-shadow: 0 1px 8px #2563eb26;
   }
+
   .cli-nav-btn.active .cli-label,
   .cli-nav-btn[aria-current="page"] .cli-label {
     color: var(--green-400, #16a34a);
   }
-  /* Accessibility focus */
+
+  /* === ACCESSIBILITY: Focus Visibility === */
   .cli-nav-btn:focus-visible {
     outline: 2px solid var(--green-400, #16a34a);
     outline-offset: 2px;
   }
-  /*
-   * Responsive Design: Progressive & Usable
-   */
+
+  /* === RESPONSIVE DESIGN LAYERS === */
   @media (min-width: 1024px) {
     .terminal-nav-glass {
       min-width: 15.5rem;
     }
   }
+
   @media (max-width: 1023px) and (min-width: 768px) {
     header {
       width: 14rem;
@@ -259,6 +286,7 @@ const navItems = [
       font-size: 0.95em;
     }
   }
+
   @media (max-width: 767px) and (min-width: 640px) {
     header {
       width: 10rem;
@@ -279,7 +307,7 @@ const navItems = [
       padding: 0.6rem 0.8rem;
     }
   }
-  /* Mobile: Full navigation with better spacing */
+
   @media (max-width: 639px) {
     .terminal-nav-glass {
       padding: 1.5rem 1rem;
@@ -302,19 +330,25 @@ const navItems = [
       min-height: 3em;
       justify-content: flex-start;
     }
-    /* Remove tooltip on mobile for better UX */
+    /* Hide tooltips on small screens for cleaner UX */
     .cli-nav-btn::after {
       display: none;
     }
   }
 </style>
+
+<!-- === SCRIPT: INTERSECTION OBSERVER & MOBILE TOGGLE === -->
 <script>
-  // @ts-nocheck
+  // @ts-nocheck - Astro runtime handles types; this avoids IDE warnings
   document.addEventListener("astro:page-load", () => {
+    // === DOM Elements ===
     const sections = document.querySelectorAll("section[id]");
     const navItems = document.querySelectorAll("header nav a.cli-nav-btn");
     const header = document.querySelector("header.header-toggle");
     const toggleBtn = document.querySelector(".header-toggle-btn");
+
+    // === Active Link Highlighting ===
+    // Updates active navigation item based on scroll position
     function makeActive(label) {
       navItems.forEach((item) => {
         if (item.getAttribute("aria-label") === label) {
@@ -326,6 +360,8 @@ const navItems = [
         }
       });
     }
+
+    // Intersection Observer: detects which section is in view
     const callback = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -333,20 +369,23 @@ const navItems = [
         }
       });
     };
+
     const observer = new IntersectionObserver(callback, {
-      root: null,
+      root: null, // viewport
       rootMargin: "0px",
-      threshold: 0.3,
+      threshold: 0.3, // 30% visibility triggers activation
     });
-    sections.forEach((section) => {
-      observer.observe(section);
-    });
+
+    sections.forEach((section) => observer.observe(section));
+
+    // Cleanup observer on page transition (Astro SPA navigation)
     document.addEventListener(
       "astro:before-preparation",
       () => observer.disconnect(),
       { once: true }
     );
-    // Mobile header toggle logic
+
+    // === Mobile Header Toggle Logic ===
     if (toggleBtn && header) {
       const backdrop = document.querySelector(".header-backdrop");
 
@@ -355,16 +394,18 @@ const navItems = [
         if (backdrop) backdrop.classList.toggle("open", isOpen);
       };
 
-      toggleBtn.addEventListener("click", () => {
+      // Toggle sidebar on button click
+      toggleBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
         setOpen(!header.classList.contains("open"));
       });
 
-      // Close header when clicking backdrop
+      // Close on backdrop click
       if (backdrop) {
         backdrop.addEventListener("click", () => setOpen(false));
       }
 
-      // Close header when clicking outside (mobile only)
+      // Close when clicking outside sidebar (mobile only)
       document.addEventListener("click", (e) => {
         if (
           header.classList.contains("open") &&
@@ -375,7 +416,7 @@ const navItems = [
         }
       });
 
-      // Close on escape key
+      // Close on Escape key
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && header.classList.contains("open")) {
           setOpen(false);
