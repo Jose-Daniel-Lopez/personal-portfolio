@@ -6,6 +6,7 @@ import Link from "./icons/Link.astro";
 import Code from "./icons/Code.astro";
 import Vue from "./icons/Vue.astro";
 import Spring from "./icons/Spring.astro";
+import Bootstrap from "./icons/Bootstrap.astro";
 
 const TAGS = {
   NEXT: {
@@ -17,6 +18,11 @@ const TAGS = {
     name: "Spring Boot",
     class: "bg-[#5EA23A] text-white",
     icon: Spring,
+  },
+  BOOTSTRAP: {
+    name: "Bootstrap",
+    class: "bg-[#af6efa] text-white",
+    icon: Bootstrap,
   },
   VUE: {
     name: "Vue.js",
@@ -54,7 +60,7 @@ const PROJECTS: Project[] = [
     github:
       "https://github.com/Jose-Daniel-Lopez/SpringBoot-RealTimeChat-WebApplication",
     image: "/jose-portfolio/projects/real_time_chat.webp",
-    tags: [TAGS.SPRING],
+    tags: [TAGS.SPRING, TAGS.BOOTSTRAP],
   },
   {
     title: "Not my project I still need to fix my github repos",
