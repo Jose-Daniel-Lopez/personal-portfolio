@@ -15,12 +15,19 @@ import MySQL from "./icons/MySQL.astro";
 import PostgreSQL from "./icons/PostgreSQL.astro";
 import Mongo from "./icons/Mongo.astro";
 import Bootstrap from "./icons/Bootstrap.astro";
+import Express from "./icons/Express.astro";
+import Docker from "./icons/Docker.astro";
 
 const TECH_TAGS = {
   SPRING: {
     name: "Spring",
     class: "bg-[#2a9902] text-white",
     icon: Spring,
+  },
+  EXPRESS: {
+    name: "Express",
+    class: "bg-[#2a9902] text-white",
+    icon: Express,
   },
   NODE: {
     name: "Node.js",
@@ -31,11 +38,6 @@ const TECH_TAGS = {
     name: "Java",
     class: "bg-[#004b96] text-white",
     icon: Java,
-  },
-  CPP: {
-    name: "C++",
-    class: "bg-[#005d82] text-white",
-    icon: Cpp,
   },
   VUE: {
     name: "Vue.js",
@@ -92,6 +94,11 @@ const TECH_TAGS = {
     class: "bg-[#4DB33D] text-white",
     icon: Mongo,
   },
+  DOCKER: {
+    name: "Docker",
+    class: "bg-[#BFD7E0] text-white",
+    icon: Docker,
+  },
 };
 
 interface TechCategory {
@@ -106,15 +113,15 @@ interface TechCategory {
 const TECH_CATEGORIES: TechCategory[] = [
   {
     title: "Backend Technologies",
-    technologies: [TECH_TAGS.SPRING, TECH_TAGS.NODE, TECH_TAGS.JAVA, TECH_TAGS.CPP],
+    technologies: [TECH_TAGS.SPRING, TECH_TAGS.NODE, TECH_TAGS.EXPRESS, TECH_TAGS.JAVA],
   },
   {
     title: "Frontend Technologies",
     technologies: [TECH_TAGS.VUE, TECH_TAGS.REACT, TECH_TAGS.ASTRO, TECH_TAGS.TYPESCRIPT, TECH_TAGS.JAVASCRIPT],
   },
   {
-    title: "Database Technologies",
-    technologies: [TECH_TAGS.MYSQL, TECH_TAGS.POSTGRESQL, TECH_TAGS.MARIADB, TECH_TAGS.MONGODB],
+    title: "Database & Related",
+    technologies: [TECH_TAGS.MYSQL, TECH_TAGS.POSTGRESQL, TECH_TAGS.MARIADB, TECH_TAGS.MONGODB, TECH_TAGS.DOCKER],
   },
   {
     title: "Styling & UI",

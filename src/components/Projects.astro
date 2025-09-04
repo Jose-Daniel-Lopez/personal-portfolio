@@ -7,6 +7,9 @@ import Code from "./icons/Code.astro";
 import Vue from "./icons/Vue.astro";
 import Spring from "./icons/Spring.astro";
 import Bootstrap from "./icons/Bootstrap.astro";
+import TypeScript from "./icons/TypeScript.astro";
+import PostgreSQL from "./icons/PostgreSQL.astro";
+import Java from "./icons/Java.astro";
 
 const TAGS = {
   NEXT: {
@@ -29,10 +32,25 @@ const TAGS = {
     class: "bg-[#41B883] text-white",
     icon: Vue,
   },
+  TYPESCRIPT: {
+    name: "TypeScript",
+    class: "bg-[#3178C6] text-white",
+    icon: TypeScript,
+  },
+  JAVA: {
+    name: "Java",
+    class: "bg-[#004b96] text-white",
+    icon: Java,
+  },
   TAILWIND: {
     name: "Tailwind CSS",
     class: "bg-[#003159] text-white",
     icon: Tailwind,
+  },
+  POSTGRESQL: {
+    name: "PostgreSQL",
+    class: "bg-[#336791] text-white",
+    icon: PostgreSQL,
   },
 };
 
@@ -53,22 +71,30 @@ interface Project {
 
 const PROJECTS: Project[] = [
   {
-    title: "Web Socket Chat - Spring Boot + Thymeleaf",
+    title: "Web Socket Chat",
     description:
-      "Aplicación de chat en tiempo real con Spring Boot y WebSocket.",
-    link: "https://svgl.vercel.app/",
+      "Aplicación de chat en tiempo real con Spring Boot y WebSocket. Thymeleaf como gestor de plantillas.",
+    link: "https://tab-to-dev.click/jose-chatapp/",
     github:
       "https://github.com/Jose-Daniel-Lopez/SpringBoot-RealTimeChat-WebApplication",
     image: "/jose-portfolio/projects/real_time_chat.webp",
-    tags: [TAGS.SPRING, TAGS.BOOTSTRAP],
+    tags: [TAGS.SPRING, TAGS.JAVA, TAGS.BOOTSTRAP],
   },
   {
-    title: "Not my project I still need to fix my github repos",
+    title: "Tejon Tech - Spring + Vue.js",
     description:
-      "Plataforma gratuita con retos de programación. Más de 1 millón de visitas en un mes. +50K retos completados. Creada desde cero con Next.js, React y Tailwind CSS.",
-    link: "https://adventjs.dev",
-    image: "/jose-portfolio/projects/adventjs.webp",
-    tags: [TAGS.NEXT, TAGS.TAILWIND],
+      "E-commerce centrado en el sector tecnológico. Desarrollado con Spring y Vue.js.",
+    link: "https://tab-to-dev.click/tejon-tech/",
+    github: "https://github.com/Jose-Daniel-Lopez/E-Commerce-Frontend",
+    image: "/jose-portfolio/projects/tejontech.webp",
+    tags: [
+      TAGS.SPRING,
+      TAGS.TAILWIND,
+      TAGS.VUE,
+      TAGS.TYPESCRIPT,
+      TAGS.POSTGRESQL,
+      TAGS.JAVA,
+    ],
   },
 ];
 ---
