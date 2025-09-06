@@ -10,6 +10,8 @@ import Bootstrap from "./icons/Bootstrap.astro";
 import TypeScript from "./icons/TypeScript.astro";
 import PostgreSQL from "./icons/PostgreSQL.astro";
 import Java from "./icons/Java.astro";
+import AstroIcon from "./icons/AstroIcon.astro";
+import Mongo from "./icons/Mongo.astro";
 
 const TAGS = {
   NEXT: {
@@ -17,10 +19,20 @@ const TAGS = {
     class: "bg-black text-white",
     icon: NextJS,
   },
+  MONGODB: {
+    name: "MongoDB",
+    class: "bg-[#4DB33D] text-white",
+    icon: Mongo,
+  },
   SPRING: {
     name: "Spring Boot",
     class: "bg-[#5EA23A] text-white",
     icon: Spring,
+  },
+  ASTRO: {
+    name: "Astro",
+    class: "bg-[#FF5D01] text-white",
+    icon: AstroIcon,
   },
   BOOTSTRAP: {
     name: "Bootstrap",
@@ -93,6 +105,21 @@ const PROJECTS: Project[] = [
       TAGS.VUE,
       TAGS.TYPESCRIPT,
       TAGS.POSTGRESQL,
+      TAGS.JAVA,
+    ],
+  },
+  {
+    title: "Neo Url - Spring + Astro",
+    description: "Acortador de URLs desarrollado con Spring Boot y Astro.",
+    link: "https://tab-to-dev.click/neo-url/",
+    github: "https://github.com/Jose-Daniel-Lopez/tiny-url-frontend",
+    image: "/jose-portfolio/projects/neo-url.webp",
+    tags: [
+      TAGS.SPRING,
+      TAGS.TAILWIND,
+      TAGS.ASTRO,
+      TAGS.TYPESCRIPT,
+      TAGS.MONGODB,
       TAGS.JAVA,
     ],
   },
