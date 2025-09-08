@@ -252,7 +252,7 @@ import FooterContent from "@/components/FooterContent.astro";
       const handleScroll = () => {
         commands.forEach((cmd, idx) => {
           const rect = cmd.getBoundingClientRect();
-          const isVisible = rect.top < window.innerHeight * 0.8;
+          const isVisible = rect.top < window.innerHeight;
           if (isVisible && !processed.has(idx)) {
             processed.add(idx);
             const cmdText = cmd.getAttribute("data-command");

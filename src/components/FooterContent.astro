@@ -132,12 +132,12 @@ const baseRoot = baseUrl === "/" ? "" : baseUrl.replace(/\/$/, "");
 <script is:inline>
   document.addEventListener("DOMContentLoaded", () => {
     const thanksCmd = document.querySelector(
-      '.terminal-command[data-command="This is the end!"]'
+      '#footer .terminal-command[data-command="Has llegado al final!"]'
     );
     const logoutCmd = document.querySelector(
-      '.terminal-command[data-command="logout"]'
+      '#footer .terminal-command[data-command="logout"]'
     );
-    const output = document.querySelector(".terminal-output");
+    const output = document.querySelector("#footer .terminal-output");
     let animated = false;
 
     const type = (el, text, cb) => {
@@ -166,7 +166,7 @@ const baseRoot = baseUrl === "/" ? "" : baseUrl.replace(/\/$/, "");
       const rect = thanksCmd.getBoundingClientRect();
       if (rect.top < window.innerHeight * 0.9) {
         animated = true;
-        type(thanksCmd, "This is the end!", () => {
+        type(thanksCmd, "Has llegado al final!", () => {
           if (logoutCmd) {
             logoutCmd.style.display = "flex";
             type(logoutCmd, "logout", () => reveal());
