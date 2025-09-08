@@ -216,8 +216,12 @@ import FooterContent from "@/components/FooterContent.astro";
   <script is:inline>
     document.addEventListener("DOMContentLoaded", () => {
       // Scope to only section commands/outputs to avoid interfering with Footer animations
-      const commands = document.querySelectorAll("section .terminal-command");
-      const outputs = document.querySelectorAll("section .terminal-output");
+      const commands = document.querySelectorAll(
+        "section:not(#footer) .terminal-command"
+      );
+      const outputs = document.querySelectorAll(
+        "section:not(#footer) .terminal-output"
+      );
       const processed = new Set();
 
       const typeCommand = (el, text, cb) => {
